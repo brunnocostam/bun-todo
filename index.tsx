@@ -23,7 +23,6 @@ async function fetchHandler(request: Request): Promise<Response>{
     }
 
     if(url.pathname === "/todos" && request.method === "POST"){
-        console.log('here')    
         const {todo} = await request.json()
             todos.push({
                 id: todos.length + 1,
@@ -32,14 +31,15 @@ async function fetchHandler(request: Request): Promise<Response>{
         return new Response(renderToString(<TodoList todos={todos} />))
     }
 
+
     return new Response("Not found", { status: 404 });
 }
 
-function TodoList(props: { todos: Todo[] }){
+function TodoList(props:{ todos: Todo[]}){
     return (
         <ul>
         {props.todos.length 
-            ? props.todos.map(todo => <li>{todo.name}</li>) 
+            ? props.todos.map(todo => <li key={todo.id}>{todo.name}</li>)
             : "Todo not found"}
         </ul>
     );
